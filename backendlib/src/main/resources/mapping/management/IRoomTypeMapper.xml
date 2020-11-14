@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.hotel.management.mapper.IRoomTypeMapper">
+<!-- 映射 -->
+  <resultMap id="RoomTypeResultMap" type="RoomType">
+    <id column="typeId" jdbcType="INTEGER" property="typeId" />
+    <result column="roomType" jdbcType="VARCHAR" property="roomType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="discount" jdbcType="DOUBLE" property="discount" />
+    <result column="area" jdbcType="INTEGER" property="area" />
+    <result column="bedNum" jdbcType="INTEGER" property="bedNum" />
+    <result column="bedSize" jdbcType="VARCHAR" property="bedSize" />
+    <result column="window" jdbcType="INTEGER" property="window" />
+    <result column="rest" jdbcType="INTEGER" property="rest" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <!-- 增加房间类型 -->
+  <insert id="insert" parameterType="RoomType">
+    insert into roomtype (typeId, roomType, remark,price, discount, area,bedNum, bedSize, window,rest,create_time, update_time) 
+    values (#{typeId,jdbcType=INTEGER}, #{roomType,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{price,jdbcType=DOUBLE}, #{discount,jdbcType=DOUBLE}, #{area,jdbcType=INTEGER},
+      #{bedNum,jdbcType=INTEGER}, #{bedSize,jdbcType=VARCHAR}, #{window,jdbcType=INTEGER},#{rest,jdbcType=INTEGER},now(),now())
+  </insert>
+  
+  <!-- 删除房间类型 -->
+   <delete id="delete" >
+    delete from roomtype
+    where typeId = #{typeId,jdbcType=INTEGER}
+  </delete>
+  <!-- 修改房间类型信息 -->
+  <update id="update" parameterType="RoomType">
+    update roomtype set roomType = #{roomType,jdbcType=VARCHAR},remark = #{remark,jdbcType=VARCHAR},price = #{price,jdbcType=DOUBLE},
+      discount = #{discount,jdbcType=DOUBLE},area = #{area,jdbcType=INTEGER},bedNum = #{bedNum,jdbcType=INTEGER}, bedSize = #{bedSize,jdbcType=VARCHAR},
+      window = #{window,jdbcType=INTEGER},update_time = now(),window = #{window,jdbcType=INTEGER} where typeId = #{typeId,jdbcType=INTEGER}
+  </update>
+  <!-- 查看某个房间类型信息 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="RoomTypeResultMap">
+    select * from roomtype where typeId = #{typeId,jdbcType=INTEGER}
+  </select>
+  <!-- 取得所有房间类型列表 -->
+  <select id="selectByAll" resultMap="RoomTypeResultMap">
+    select * from roomtype
+  </select>
+  <!-- 取得所有房间类型列表，分页模式  -->
+ 	<select id="selectByAllWithPage" resultMap="RoomTypeResultMap">
+ 	select *  from roomtype limit #{start},#{rows}
+ 	</select>
+ 	<!-- 取得房间类型的个数 -->
+ 	<select id="selectCountByAll" resultType="_int">
+ 	select count(*)  from roomtype
+ 	</select>
+ 
+  
+</mapper>

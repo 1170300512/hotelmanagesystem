@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.hotel.management.mapper.IRoomMapper">
+	<!--映射-->
+  <resultMap id="RoomResultMap" type="room">
+    <id column="roomId" jdbcType="INTEGER" property="roomId" />
+    <result column="roomNumber" jdbcType="VARCHAR" property="roomNumber" />
+    <result column="typeId" jdbcType="INTEGER" property="typeId" />
+    <result column="roomType" jdbcType="VARCHAR" property="roomType" />
+    <result column="roomPrice" jdbcType="DOUBLE" property="roomPrice" />
+    <result column="roomDiscount" jdbcType="DOUBLE" property="roomDiscount" />
+    <result column="roomStatus" jdbcType="INTEGER" property="roomStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <!-- 增加房间 -->
+  <insert id="insert" parameterType="room">
+    insert into room (roomId, roomNumber, typeId,roomType, roomPrice, roomDiscount,roomStatus, remark, createTime,
+      updateTime) values (#{roomId,jdbcType=INTEGER}, #{roomNumber,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, #{roomType,jdbcType=VARCHAR}, #{roomPrice,jdbcType=DOUBLE}, #{roomDiscount,jdbcType=DOUBLE},
+      #{roomStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, now(),now())
+  </insert>
+  <!-- 删除房间 -->
+  <delete id="delete" >
+    delete from room_info  where roomId = #{roomId,jdbcType=INTEGER}
+  </delete>
+  <!-- 修改房间信息 -->
+   <update id="update" parameterType="room">
+    update room set roomNumber = #{roomNumber,jdbcType=VARCHAR},typeId = #{typeId,jdbcType=INTEGER}, roomType = #{roomType,jdbcType=VARCHAR},
+      roomPrice = #{roomPrice,jdbcType=DOUBLE}, roomDiscount = #{roomDiscount,jdbcType=DOUBLE}, roomStatus = #{roomStatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}, updateTime = now() where roomId = #{roomId,jdbcType=INTEGER}
+  </update>
+  <!-- 查看某个房间信息 -->
+   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="RoomResultMap">
+    select * from room where roomId = #{roomId,jdbcType=INTEGER}
+  </select>
+  <!-- 取得所有房间列表 -->
+  <select id="selectByAll" resultMap="RoomResultMap">
+    select * from room
+  </select>
+  <!-- 取得所有房间列表，分页模式  -->
+   <select id="selectByAllWithPage" resultMap="RoomResultMap">
+ 	select *  from room limit #{start},#{rows}
+ 	</select>
+ 	<!-- 取得房间的个数 -->
+ 	 	<select id="selectCountByAll" resultType="_int">
+ 	select count(*)  from room
+ 	</select>
+ 
+  
+ 
+</mapper>

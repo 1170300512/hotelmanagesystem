@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.hotel.management.mapper.IWorkerMapper">
+  <resultMap id="WorkerResultMap" type="Worker">
+    <id column="worker_id" jdbcType="INTEGER" property="workerId" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="CHAR" property="gender" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <!-- 增加操作员 -->
+  <insert id="insert" parameterType="Worker">
+    insert into worker_info (worker_id, role, username,password, name, gender,phone,department,email,address, create_time, update_time) values (#{workerId,jdbcType=INTEGER}, #{role,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR},
+      #{phone},#{department}, #{email}, #{address}, now(),now())
+  </insert>
+  <!-- 删除操作员 -->
+    <delete id="delete" parameterType="Worker">
+    delete from worker_info where worker_id = #{workerId,jdbcType=INTEGER}
+  </delete>
+  <!-- 修改操作员信息 -->
+  <update id="update" parameterType="Worker">
+    update worker_info set role = #{role,jdbcType=VARCHAR},username = #{username,jdbcType=VARCHAR},password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},gender = #{gender,jdbcType=CHAR},phone = #{phone,jdbcType=VARCHAR}, department = #{department,jdbcType=VARCHAR},email = #{email,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},update_time=now()  where worker_id = #{workerId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 查看某个操作员信息 -->
+   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="WorkerResultMap">
+    select * from worker_info where worker_id = #{workerId,jdbcType=INTEGER}
+  </select>
+  <!-- 取得所有操作员列表 -->
+    <select id="selectByAll" resultMap="WorkerResultMap">
+    select * from worker_info
+  </select>
+  <!-- 取得所有操作员列表列表，分页模式  -->
+    <select id="selectByAllWithPage" resultMap="WorkerResultMap">
+ 	select *  from worker_info limit #{start},#{rows}
+ 	</select>
+ 	<!-- 取得操作员的个数 -->
+ 	<select id="selectCountByAll" resultType="_int">
+ 	select count(*)  from worker_info
+ 	</select>
+ 	<!-- 取得某操作员,由username -->
+ 	<select id="getByName"  resultMap="WorkerResultMap">
+    select * from worker_info where username = #{username,jdbcType=INTEGER}
+  </select>
+ 	
+  
+</mapper>
